@@ -1,0 +1,32 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")"
+
+echo "[Allclean] removing mesh..."
+rm -rf constant/polyMesh
+
+echo "[Allclean] removing time directories (keep 0)..."
+# remove numeric time dirs like 0.1 1 2 10 etc, but keep folder "0"
+find . -maxdepth 1 -type d \
+  -regextype posix-extended \
+  -regex './[0-9]+(\.[0-9]+)?' \
+  ! -name '0' \
+  -exec rm -rf {} +
+
+
+echo "[Allclean] removing processor directories..."
+rm -rf processor*
+
+echo "[Allclean] removing logs..."
+rm -f log.* *.log
+
+echo "[Allclean] removing other generated files..."
+rm -f 0/cellLevel 0/pointLevel 0/cellZones 0/faceZones 0/pointZones
+rm -rf postProcessing
+# snappy / functionObject derived fields in 0/
+rm -f 0/vorticity 0/mag\(vorticity\) 0/magVort 0/vort
+rm -f 0/cellLevel 0/pointLevel
+
+
+
+echo "[Allclean] done."

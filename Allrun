@@ -1,0 +1,71 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")"
+
+# Options:
+#   -mesh   : only build mesh (no solver)
+#   -clean  : clean first, then run
+
+DO_SOLVER=1
+DO_CLEAN=0
+
+for arg in "$@"; do
+  case "$arg" in
+    -mesh)  DO_SOLVER=0 ;;
+    -clean) DO_CLEAN=1 ;;
+    *) echo "Unknown option: $arg"; exit 1 ;;
+  esac
+done
+
+if [ "$DO_CLEAN" -eq 1 ]; then
+  echo "[Allrun] cleaning..."
+  ./Allclean
+fi
+
+echo "[Allrun] blockMesh..."
+blockMesh | tee log.blockMesh
+
+echo "[Allrun] snappyHexMesh..."
+snappyHexMesh | tee log.snappyHexMesh
+
+#echo "[Allrun] set frontAndBack -> empty (2D)..."
+#sed -i '/^boundary\.frontAndBack\.type[[:space:]]\+empty;$/d' constant/polyMesh/boundary
+#sed -i '/^[[:space:]]*frontAndBack[[:space:]]*$/,/^[[:space:]]*}[[:space:]]*$/ s/type[[:space:]]\+patch;/type            empty;/' \
+#  constant/polyMesh/boundary
+
+echo "[Allrun] checkMesh..."
+checkMesh | tee log.checkMesh
+
+echo "[Allrun] DO_SOLVER=$DO_SOLVER  DO_CLEAN=$DO_CLEAN  ARGS=$*"
+
+if [ "$DO_SOLVER" -eq 1 ]; then
+  
+  echo "[Allrun] running solver (incompressibleFluid) ..."
+
+  endTime=$(grep -E '^[[:space:]]*endTime[[:space:]]' system/controlDict | awk '{print $2}' | tr -d ';')
+  startTime=$(grep -E '^[[:space:]]*startTime[[:space:]]' system/controlDict | awk '{print $2}' | tr -d ';')
+
+  stdbuf -oL -eL foamRun -solver incompressibleFluid 2>&1 | tee log.incompressibleFluid \
+|   awk -v s="$startTime" -v e="$endTime" '
+    $1=="Time" && $2=="=" {
+      t=$3;
+      p=100*(t-s)/(e-s);
+      if(p<0)p=0; if(p>100)p=100;
+
+      barN=30;
+      filled=int(barN*p/100);
+
+      bar="[";
+      for(i=0;i<barN;i++) bar=bar (i<filled ? "=" : " ");
+      bar=bar "]";
+
+      printf("\r%s %6.2f%%  t=%g/%g", bar, p, t, e);
+      fflush();
+    }
+    END { print "" }
+  '
+
+  echo "[Allrun] done."
+else
+  echo "[Allrun] mesh-only done."
+fi

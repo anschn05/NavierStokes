@@ -1,0 +1,156 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version:  13
+    \\  /    A nd           |
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh  true;
+snap             true;
+addLayers        false;   // Start: ohne Boundary-Layer, später können wir Layers aktivieren
+
+geometry
+{
+    cylinder
+    {
+        type triSurfaceMesh;
+        file "cylinder.stl";   // liegt in constant/triSurface/
+        name cylinder;         // Patch-Name
+    }
+}
+
+
+castellatedMeshControls
+{
+    // Grobe Limits (für 2D klein halten)
+    maxLocalCells       200000;
+    maxGlobalCells      400000;
+    minRefinementCells  0;
+    maxLoadUnbalance    0.10;
+
+    // Für eine runde Geometrie reicht das oft
+    resolveFeatureAngle 30;
+
+    // Optional: Feature-Kanten (für den Zylinder meist nicht nötig)
+    features ();
+
+    refinementSurfaces
+    {
+        cylinder
+        {
+            // (minLevel maxLevel): Level 2 für schnellere laufzeit, sonst erhöhen
+            level           (2 2);
+
+            // Erzeugt den Patch und setzt ihn als "wall"
+            patchInfo
+            {
+                type wall;
+            }
+        }
+    }
+
+    // Optional: zusätzliche Verfeinerung in der Umgebung (später tunen)
+    refinementRegions
+    {
+        // leer für Start
+    }
+
+    // Wichtig: Punkt der sicher IM Fluid ist (nicht im Zylinder, nicht auf Oberfläche)
+    // Domain: x in [0,2.2], y in [0,0.4], z in [-0.005,0.005]
+    // Zylinderzentrum: (0.2,0.2), Radius 0.05 => (0.05,0.05,0) ist sicher außerhalb
+    locationInMesh (0.05 0.05 0);
+
+    // glattere Übergänge zwischen Refinement-Leveln
+    nCellsBetweenLevels 3;
+
+    allowFreeStandingZoneFaces true;
+
+}
+
+snapControls
+{
+    nSmoothPatch        3;
+    tolerance           2.0;
+    nSolveIter          50;
+    nRelaxIter          5;
+
+    // Für runde STL ok
+    nFeatureSnapIter    0;
+    implicitFeatureSnap false;
+    explicitFeatureSnap false;
+    multiRegionFeatureSnap false;
+}
+
+addLayersControls
+{
+    // addLayers=false -> dieser Block wird ignoriert, bleibt aber als Vorlage
+    relativeSizes       true;
+
+    layers
+    {
+        cylinder
+        {
+            nSurfaceLayers 3;
+        }
+    }
+
+    expansionRatio      1.2;
+    finalLayerThickness 0.3;
+    minThickness        0.1;
+
+    nGrow               0;
+    featureAngle        60;
+
+    nRelaxIter          5;
+    nSmoothSurfaceNormals 1;
+    nSmoothNormals      3;
+    nSmoothThickness    10;
+
+    maxFaceThicknessRatio 0.5;
+    maxThicknessToMedialRatio 0.3;
+    minMedianAxisAngle  90;
+
+    nBufferCellsNoExtrude 0;
+    nLayerIter          30;
+}
+
+meshQualityControls
+{
+    // Start: eher tolerant, damit snappy sicher durchläuft
+    maxNonOrtho         65;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave          80;
+
+    minVol              1e-13;
+    minTetQuality       1e-9;
+    minArea             -1;
+    minTwist            0.02;
+    minDeterminant      0.001;
+    minFaceWeight       0.02;
+    minVolRatio         0.01;
+    minTriangleTwist    -1;
+
+    nSmoothScale        4;
+    errorReduction      0.75;
+}
+
+writeFlags
+(
+    scalarLevels
+    layerSets
+    layerFields
+);
+
+mergeTolerance 1e-6;
+
+// ************************************************************************* //

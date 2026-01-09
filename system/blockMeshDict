@@ -1,0 +1,98 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version:  13
+    \\  /    A nd           |
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+// Kanalmaße (in Metern)
+// Länge L = 2.2, Höhe H = 0.4, “Dicke” in z: dz = 0.01 (für 2D nur 1 Zelle)
+vertices
+(
+    (0    0   -0.005)   // 0
+    (2.2  0   -0.005)   // 1
+    (2.2  0.4 -0.005)   // 2
+    (0    0.4 -0.005)   // 3
+
+    (0    0    0.005)   // 4
+    (2.2  0    0.005)   // 5
+    (2.2  0.4  0.005)   // 6
+    (0    0.4  0.005)   // 7
+);
+
+blocks
+(
+    // Zellzahlen: (nx ny nz)
+    // Startwerte: nx=220, ny=40, nz=1 (später tunen)
+    hex (0 1 2 3 4 5 6 7) (220 40 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 3 7 4)
+        );
+    }
+
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (1 5 6 2)
+        );
+    }
+
+    bottomWall
+    {
+        type wall;
+        faces
+        (
+            (0 4 5 1)
+        );
+    }
+
+    topWall
+    {
+        type wall;
+        faces
+        (
+            (3 2 6 7)
+        );
+    }
+
+    frontAndBack
+    {
+        type symmetry;         // IMPORTANT: für snappy muss es 3D sein -> kein empty
+        faces
+        (
+            (0 1 2 3)   // z = -0.005
+            (4 7 6 5)   // z = +0.005
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

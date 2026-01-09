@@ -1,0 +1,14 @@
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+
+// konstante kinematische Viskosität
+viscosityModel  constant;
+
+// nu hat Dimension [m^2/s] = [0 2 -1 0 0 0 0]
+// Wasser ~1e-6 m^2/s (20°C). Für “mehr Dämpfung” könntest du testweise 1e-5 nehmen.
+nu              [0 2 -1 0 0 0 0] 5e-06;

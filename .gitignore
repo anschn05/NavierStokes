@@ -1,0 +1,42 @@
+# OpenFOAM generated mesh/results
+constant/polyMesh/
+processor*/
+log.*
+*.log
+
+# time directories (keep 0, ignore numeric times)
+[1-9]*/
+0.[0-9]*/
+[1-9]*.[0-9]*/
+
+# paraFoam/paraview
+*.OpenFOAM
+*.foam
+*.pvsm
+*.png
+*.jpg
+*.mp4
+
+Animation/
+*.png
+*.jpg
+*.mp4
+*.avi
+
+Animation/*
+!Animation/.gitkeep
+
+
+# functionObject / helper fields in 0/ (keep U,p etc.)
+0/vorticity
+0/mag(vorticity)
+0/cellLevel
+0/pointLevel
+
+# postProcessing
+postProcessing/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.swp

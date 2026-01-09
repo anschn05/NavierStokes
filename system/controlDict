@@ -1,0 +1,73 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version:  13
+    \\  /    A nd           |
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// In OpenFOAM v13 werden die "Solver" meist als Module via foamRun geladen:
+application     foamRun;
+solver          incompressibleFluid;
+
+startFrom       startTime;
+startTime       0;
+
+stopAt          endTime;
+endTime         200;
+
+// Startwert; bei adjustTimeStep kann er wachsen/schrumpfen
+deltaT          1e-3;
+
+// Automatische Zeitschrittanpassung über Courant-Zahl
+adjustTimeStep  yes;
+maxCo           2.0;
+maxDeltaT       0.01;
+
+// Output
+writeControl    runTime;
+writeInterval   1.0;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+writePrecision  7;
+writeCompression off;
+
+timeFormat      general;
+timePrecision   7;
+
+runTimeModifiable yes;
+
+functions
+{
+    vorticity
+    {
+        type            vorticity;
+        libs            ("libfieldFunctionObjects.so");
+
+        // schreibt ein volVectorField "vorticity"
+        writeControl    writeTime;   // genau dann, wenn auch die normalen Felder geschrieben werden
+    }
+
+    magVorticity
+    {
+        type            mag;
+        libs            ("libfieldFunctionObjects.so");
+
+        field           vorticity;   // Betrag der Vorticity
+
+        writeControl    writeTime;
+        writeFields     yes;         // schreibt "magVorticity" als Feld
+    }
+}
+
+// ************************************************************************* //
