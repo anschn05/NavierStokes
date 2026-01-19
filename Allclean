@@ -23,6 +23,10 @@ rm -f log.* *.log
 echo "[Allclean] removing other generated files..."
 rm -f 0/cellLevel 0/pointLevel 0/cellZones 0/faceZones 0/pointZones
 rm -rf postProcessing
+rm -f *.btr paraview*.btr
+rm -f *.OpenFOAM
+
+
 # snappy / functionObject derived fields in 0/
 rm -f 0/vorticity 0/mag\(vorticity\) 0/magVort 0/vort
 rm -f 0/cellLevel 0/pointLevel

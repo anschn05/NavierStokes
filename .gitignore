@@ -26,6 +26,9 @@ Animation/
 Animation/*
 !Animation/.gitkeep
 
+*.btr
+paraview.*.btr
+
 
 # functionObject / helper fields in 0/ (keep U,p etc.)
 0/vorticity
