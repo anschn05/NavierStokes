@@ -16,6 +16,11 @@ ausgegeben, um den Nachlauf (von-Kármán-Wirbelstraße) gut darstellen zu könn
 
 ## Ausführen
 
+> Hinweis (Setup): einmal die OpenFOAM-Umgebung laden (Pfad je nach Installation), z.B.:
+```bash 
+source /opt/openfoam13/etc/bashrc
+```
+
 Nur Mesh erzeugen:
 ```bash
 ./Allclean
