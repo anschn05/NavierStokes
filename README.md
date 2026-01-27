@@ -199,17 +199,6 @@ python3 -c "from simulate_cylinder import run_cylinder_simulation; run_cylinder_
 - `results/cylinder_flow.xdmf`: Strömungsfeld (öffnen mit Paraview)
 - `results/cylinder_forces.png`: Drag/Lift-Zeitreihe
 
-## Roadmap
-
-- [x] Transiente Formulierung (zeitabhängig) ✅
-- [x] Post-Processing: Kraft-Berechnung (Drag/Lift) ✅
-- [x] Mesh-Generator für Zylinderumströmung ✅
-- [ ] Newton-Iteration (schneller als Picard)
-- [ ] Erweiterte Randbedingungen (Neumann, Robin)
-- [ ] Strömungsstabilitätsanalyse (Bifurkation, kritische Re)
-- [ ] Notebooks mit Beispielen und Visualisierung
-- [ ] GitHub Actions CI (automatische Tests)
-- [ ] Dokumentation (Sphinx)
 
 ## Anforderungen
 
