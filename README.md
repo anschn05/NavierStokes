@@ -9,7 +9,7 @@ Dieser Branch enthält den Code der Navier-Stokes-Simulation mithilfe von **NGSo
 Simuliert wird eine instationäre, inkompressible Strömung um einen Kreiszylinder – ein klassisches Benchmark-Problem der Strömungsmechanik, bekannt für die dabei entstehende **Kármánsche Wirbelstraße**.
 
 **Geometrie:**
-- Rechteckiger Kanal: 2.0x0.41m $2{,}0 \times 0{,}41$ m
+- Rechteckiger Kanal: $2.0 \times 0.41$ m
 - Kreisförmiges Hindernis: Mittelpunkt (0.5m, 0.2m), Radius 0.5m $(0{,}5 \mid 0{,}2)$ m, Radius $R = 0{,}05$ m
 
 **Randbedingungen:**
@@ -28,6 +28,7 @@ Simuliert wird eine instationäre, inkompressible Strömung um einen Kreiszylind
 Die schwache Formulierung der Navier-Stokes-Gleichungen wird mit **Taylor-Hood-Elementen** (P2/P1) diskretisiert:
 - Geschwindigkeit: quadratische Ansatzfunktionen (P2)
 - Druck: lineare Ansatzfunktionen (P1)
+
 Die Nichtlinearität wird pro Zeitschritt über eine **Picard-Iteration** aufgelöst. Das Mesh wird mit **Netgen** erzeugt.
 ---
 
