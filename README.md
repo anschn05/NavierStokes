@@ -31,6 +31,8 @@ Die schwache Formulierung der Navier-Stokes-Gleichungen wird mit **Taylor-Hood-E
 
 <p></p>
 Die Nichtlinearität wird pro Zeitschritt über eine Picard-Iteration aufgelöst. Das Mesh wird mit Netgen erzeugt.
+
+
 ---
 
 ## Voraussetzungen
