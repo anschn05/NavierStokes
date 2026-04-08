@@ -10,7 +10,7 @@ Simuliert wird eine instationäre, inkompressible Strömung um einen Kreiszylind
 
 **Geometrie:**
 - Rechteckiger Kanal: $2.0 \times 0.41$ m
-- Kreisförmiges Hindernis: Mittelpunkt (0.5m, 0.2m), Radius 0.5m $(0{,}5 \mid 0{,}2)$ m, Radius $R = 0{,}05$ m
+- Kreisförmiges Hindernis: Mittelpunkt (0.5m, 0.2m), Radius 0.5m $(0.5 \mid 0.2)$ m, Radius $R = 0.05$ m
 
 **Randbedingungen:**
 - **Einlass:** konstante Geschwindigkeit, mit $U_\mathrm{max} = 5{,}0$ m/s
