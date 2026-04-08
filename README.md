@@ -1,4 +1,4 @@
-# Simulation-der-Navier-Stokes-Gleichungen-mit-Hilfe-von-k-nstlicher-Intelligenz
+# Simulation-der-Navier-Stokes-Gleichungen-mit-Hilfe-von-kuenstlicher-Intelligenz
 
 Die Seminararbeit 'Simulation der Navier-Stokes-Gleichungen mit Hilfe von künstlicher Intelligenz' von Anna Sonnleitner, Emanuel Steininger und Martin Strobl für den Bachelor-Studiengang 'Technische Mathematik' an der TU Wien
 
