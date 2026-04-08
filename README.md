@@ -1,6 +1,7 @@
 # Navier-Stokes Simulation – NGSolve (FEM)
 
 Dieser Branch enthält den Code der Navier-Stokes-Simulation mithilfe von **NGSolve**, einem auf der Finiten-Elemente-Methode (FEM) basierenden Framework. 
+Außerdem zwei Visualisierungen des Stroms mit zwei verschiedenen Reynoldszahlen: 100, 200.
 
 ---
 
@@ -48,7 +49,7 @@ NGSolve enthält Netgen bereits — keine separate Installation nötig.
 ## Ausführung
 
 ```bash
-jupyter notebook navierstokes_chat_claude_ENDVERSION.ipynb
+jupyter notebook NavierStokes_NGSolve.ipynb
 ```
 
 > Die Visualisierung (`Draw(...)`) funktioniert nur im Jupyter-Notebook! Ein Python-Interpreter reicht dafür nicht aus.
