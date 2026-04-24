@@ -16,7 +16,6 @@ FoamFile
 
 dimensions      [0 1 -1 0 0 0 0];
 
-// Startwert im ganzen Feld (kannst du so lassen)
 internalField   uniform (0.02 1e-3 0);
 
 boundaryField

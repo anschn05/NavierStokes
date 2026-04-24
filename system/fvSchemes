@@ -16,7 +16,7 @@ FoamFile
 
 ddtSchemes
 {
-    default         backward;   // stabil für transient (alternativ: Euler)
+    default         backward;   // stabil (alternativ: Euler)
 }
 
 gradSchemes
@@ -31,7 +31,6 @@ divSchemes
     // Konvektionsterm für Impuls: stabil + nicht zu diffusive
     div(phi,U)      Gauss limitedLinearV 1;
 
-    // Viskoser Term wird i.d.R. als laplacian umgesetzt, daher hier nichts extra nötig
 }
 
 laplacianSchemes
